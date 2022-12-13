@@ -1,0 +1,11 @@
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\bin\Release\CSampleServer.exe.config
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\bin\Release\CSampleServer.exe
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\bin\Release\CSampleServer.pdb
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\bin\Release\FreeNet.dll
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\bin\Release\FreeNet.pdb
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.csproj.AssemblyReference.cache
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.csproj.SuggestedBindingRedirects.cache
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.csproj.CoreCompileInputs.cache
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.csproj.CopyComplete
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.exe
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\CSampleServer\obj\Release\CSampleServer.pdb

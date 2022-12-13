@@ -1,0 +1,31 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "90786d2b-f7a9-4a90-a073-838ef232ba6a": {
+      "ProjectGuid": "90786d2b-f7a9-4a90-a073-838ef232ba6a",
+      "DisplayName": "FreeNet",
+      "ColorIndex": 0
+    },
+    "341ba7a5-4942-48f4-885c-d186ea81bc92": {
+      "ProjectGuid": "341ba7a5-4942-48f4-885c-d186ea81bc92",
+      "DisplayName": "VirusWarGameServer",
+      "ColorIndex": 1
+    },
+    "3ecd16da-bd8e-44d3-b7a1-e9f687b9b84e": {
+      "ProjectGuid": "3ecd16da-bd8e-44d3-b7a1-e9f687b9b84e",
+      "DisplayName": "CSampleClient",
+      "ColorIndex": 2
+    },
+    "c1f5aa4b-069d-4e63-bbfc-5fcedd182c6e": {
+      "ProjectGuid": "c1f5aa4b-069d-4e63-bbfc-5fcedd182c6e",
+      "DisplayName": "CSampleServer",
+      "ColorIndex": 3
+    },
+    "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3": {
+      "ProjectGuid": "a2fe74e1-b743-11d0-ae1a-00a0c90fffc3",
+      "DisplayName": "기타 파일",
+      "ColorIndex": -1
+    }
+  },
+  "NextColorIndex": 4
+}

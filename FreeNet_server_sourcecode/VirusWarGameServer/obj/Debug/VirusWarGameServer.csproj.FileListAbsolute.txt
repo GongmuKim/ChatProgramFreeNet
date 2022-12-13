@@ -1,0 +1,11 @@
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\bin\Debug\VirusWarGameServer.exe.config
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\bin\Debug\VirusWarGameServer.exe
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\bin\Debug\VirusWarGameServer.pdb
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\bin\Debug\FreeNet.dll
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\bin\Debug\FreeNet.pdb
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.csproj.SuggestedBindingRedirects.cache
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.csproj.CoreCompileInputs.cache
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.csproj.CopyComplete
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.exe
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.pdb
+E:\gmkim_project\R&D\Social_Login_R&D\Sources\C#으로온라인게임서버만들기_예제source\소스코드\FreeNet_server_sourcecode\VirusWarGameServer\obj\Debug\VirusWarGameServer.csproj.AssemblyReference.cache
