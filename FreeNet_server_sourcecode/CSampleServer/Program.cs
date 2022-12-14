@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FreeNet;
@@ -21,8 +22,22 @@ namespace CSampleServer
 			service.session_created_callback += on_session_created;
 			// 초기화.
 			service.initialize();
-			service.listen("127.0.0.1", 7979, 100);
 
+			var host = Dns.GetHostEntry(Dns.GetHostName());
+			string local_IP = "";
+
+			foreach(var ip in host.AddressList)
+            {
+				if(ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+					local_IP = ip.ToString();
+					break;
+				}
+            }
+
+			//service.listen("127.0.0.1", 7979, 100);
+			Console.WriteLine(string.Format("Get Local IP -> {0}", local_IP));
+			service.listen(local_IP, 7979, 100);
 
 			Console.WriteLine("Started!");
 			while (true)
