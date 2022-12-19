@@ -108,11 +108,14 @@ namespace FreeNet
 			// 클라이언트 입장에서 서버와 통신을 할 때는 접속한 서버당 두개의 EventArgs만 있으면 되기 때문에 그냥 new해서 쓴다.
 			// 서버간 연결에서도 마찬가지이다.
 			// 풀링처리를 하려면 c->s로 가는 별도의 풀을 만들어서 써야 한다.
+
+			// 수신 셋팅
 			SocketAsyncEventArgs receive_event_arg = new SocketAsyncEventArgs();
 			receive_event_arg.Completed += new EventHandler<SocketAsyncEventArgs>(receive_completed);
 			receive_event_arg.UserToken = token;
 			receive_event_arg.SetBuffer(new byte[1024], 0, 1024);
 
+			// 송신 셋팅
 			SocketAsyncEventArgs send_event_arg = new SocketAsyncEventArgs();
 			send_event_arg.Completed += new EventHandler<SocketAsyncEventArgs>(send_completed);
 			send_event_arg.UserToken = token;
@@ -134,7 +137,8 @@ namespace FreeNet
 			Interlocked.Increment(ref this.connected_count);
 
 			Console.WriteLine(string.Format("[{0}] A client connected. handle {1},  count {2}",
-				Thread.CurrentThread.ManagedThreadId, client_socket.Handle,
+				Thread.CurrentThread.ManagedThreadId, 
+				client_socket.Handle,
 				this.connected_count));
 
 			// 플에서 하나 꺼내와 사용한다.
@@ -152,6 +156,12 @@ namespace FreeNet
 			//user_token.start_keepalive();
 		}
 
+		/// <summary>
+		/// 클라이언트가 서버에 접속 성공후 계속 데이터를 받기 위해서 비동기 요청을 시작해준다.
+		/// </summary>
+		/// <param name="socket">클라이언트 소캣</param>
+		/// <param name="receive_args">수신 이벤트</param>
+		/// <param name="send_args">송신 이벤트</param>
 		void begin_receive(Socket socket, SocketAsyncEventArgs receive_args, SocketAsyncEventArgs send_args)
 		{
 			// receive_args, send_args 아무곳에서나 꺼내와도 된다. 둘다 동일한 CUserToken을 물고 있다.
@@ -190,9 +200,13 @@ namespace FreeNet
 			token.process_send(e);
 		}
 
-		// This method is invoked when an asynchronous receive operation completes. 
-		// If the remote host closed the connection, then the socket is closed.  
-		//
+		/// <summary>
+		/// 비동기 수신 작업이 완료될 때 호출하는 함수
+		/// </summary>
+		/// <remarks>
+		/// 원격 호스트가 연결을 닫으면 소켓을 닫습니다.
+		/// </remarks>
+		/// <param name="e"></param>
 		private void process_receive(SocketAsyncEventArgs e)
 		{
 			// check if the remote host closed the connection
@@ -215,9 +229,14 @@ namespace FreeNet
 			}
 		}
 
+		/// <summary>
+		/// 서버와 연결한 클라이언트 연결을 끊는다.
+		/// </summary>
+		/// <param name="token">클라이언트 UserToken</param>
 		public void close_clientsocket(CUserToken token)
 		{
 			token.on_removed();
+			Interlocked.Decrement(ref this.connected_count);
 
 			// Free the SocketAsyncEventArg so they can be reused by another client
 			// 버퍼는 반환할 필요가 없다. SocketAsyncEventArg가 버퍼를 물고 있기 때문에
