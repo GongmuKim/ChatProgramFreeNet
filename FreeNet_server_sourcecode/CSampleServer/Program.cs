@@ -57,12 +57,18 @@ namespace CSampleServer
 		static void on_session_created(CUserToken token)
 		{
 			CGameUser user = new CGameUser(token);
+			user.callback_get_tokenlist += GetTokenList;
+
 			lock (userlist)
 			{
 				userlist.Add(user);
 			}
 		}
 
+		/// <summary>
+		/// 클라이언트가 접속 해제를 하였을 때 호출됩니다.
+		/// </summary>
+		/// <param name="user"></param>
 		public static void remove_user(CGameUser user)
 		{
 			lock (userlist)
@@ -70,5 +76,14 @@ namespace CSampleServer
 				userlist.Remove(user);
 			}
 		}
+
+		/// <summary>
+		/// 서버에 접속한 클라이언트 토큰 리스트를 반환한다.
+		/// </summary>
+		/// <returns>클라이언트 토큰 리스트</returns>
+		public static List<CGameUser> GetTokenList()
+        {
+			return userlist;
+        }
 	}
 }

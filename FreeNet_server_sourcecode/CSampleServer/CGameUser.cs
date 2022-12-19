@@ -14,6 +14,8 @@ namespace CSampleServer
 	/// </summary>
 	class CGameUser : IPeer
 	{
+		public delegate List<CGameUser> GetTokenListCallBack();
+		public GetTokenListCallBack callback_get_tokenlist;
 		CUserToken token;
 
 		public CGameUser(CUserToken token)
@@ -38,7 +40,8 @@ namespace CSampleServer
 
 						CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
 						response.push(text);
-						send(response);
+						//send(response);
+						sendAll(response);
 					}
 					break;
 			}
@@ -47,13 +50,22 @@ namespace CSampleServer
 		void IPeer.on_removed()
 		{
 			Console.WriteLine("The client disconnected.");
-
 			Program.remove_user(this);
 		}
 
 		public void send(CPacket msg)
 		{
 			this.token.send(msg);
+		}
+
+		public void sendAll(CPacket msg)
+        {
+			List<CGameUser> users = callback_get_tokenlist();
+
+			foreach (CGameUser user in users)
+			{
+				user.token.send(msg);
+			}
 		}
 
 		void IPeer.disconnect()
