@@ -44,7 +44,7 @@ namespace CSampleServer
                 Console.WriteLine("Connecting to MySQL...");
                 conn.Open();
                 //Check for connection
-                string sql = "SELECT * FROM ChatLog";
+                string sql = "SELECT * FROM chatlog_table";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
                 MySqlDataReader rdr = cmd.ExecuteReader();
                 while (rdr.Read())
