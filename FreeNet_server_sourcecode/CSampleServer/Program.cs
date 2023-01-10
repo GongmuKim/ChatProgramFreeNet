@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using FreeNet;
+using MySql.Data.MySqlClient;
 
 namespace CSampleServer
 {
@@ -35,9 +36,23 @@ namespace CSampleServer
 				}
             }
 
-			//service.listen("127.0.0.1", 7979, 100);
-			Console.WriteLine(string.Format("Get Local IP -> {0}", local_IP));
-			service.listen(local_IP, 7979, 100);
+            //Access mysql database. And check if the connection is successful.
+            string connStr = "server=localhost;user=root;database=ChatLog;port=3306;password=vhzptapahflA123";
+            MySqlConnection conn = new MySqlConnection(connStr);
+            try
+            {
+                Console.WriteLine("Connecting to MySQL...");
+                conn.Open();
+                // Perform database operations
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            //service.listen("127.0.0.1", 7979, 100); // IP를 직접 입력하는 방식
+            Console.WriteLine(string.Format("Get Local IP -> {0}", local_IP)); // 현재 컴퓨터의 IP 주소를 가져오는 방식
+			service.listen(local_IP, 7979, 100); // 포트는 7979로 고정
 
 			Console.WriteLine("Started!");
 			while (true)
