@@ -8,6 +8,7 @@ using FreeNet;
 namespace CSampleServer
 {
 	using GameServer;
+	using static System.Net.Mime.MediaTypeNames;
 
 	/// <summary>
 	/// 하나의 session객체를 나타낸다.
@@ -37,11 +38,11 @@ namespace CSampleServer
 					{
 						string text = msg.pop_string();
 						Console.WriteLine(string.Format("text {0}", text));
-
-						CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
+						//Program.chatlog_list.Add(text);
+                        CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
 						response.push(text);
 						//send(response);
-						sendAll(response);
+						sendAll(response, text);
 					}
 					break;
 			}
@@ -57,10 +58,10 @@ namespace CSampleServer
 		{
 			this.token.send(msg);
 		}
-
-		public void sendAll(CPacket msg)
+		public void sendAll(CPacket msg, string text)
         {
-			List<CGameUser> users = callback_get_tokenlist();
+			Program.chatlog_list.Add(text);
+            List<CGameUser> users = callback_get_tokenlist();
 
 			foreach (CGameUser user in users)
 			{
@@ -75,6 +76,27 @@ namespace CSampleServer
 
 		void IPeer.process_user_operation(CPacket msg)
 		{
+		}
+
+		void IPeer.call_get_messages()
+		{
+            List<string> getSqlChatdata = new List<string>();
+            getSqlChatdata = Program.MySqlGetData();
+
+			if (getSqlChatdata != null)
+			{
+				foreach (string chatdata in getSqlChatdata)
+				{
+					CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
+					response.push(chatdata);
+					send(response);
+				}
+			}
+        }
+
+		void IPeer.call_save_messages()
+		{
+			Program.MySqlSaveData();
 		}
 	}
 }

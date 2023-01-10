@@ -12,7 +12,9 @@ namespace GameServer
 
 		CHAT_MSG_REQ = 1,
 		CHAT_MSG_ACK = 2,
+        CHAT_DATA_REQ = 3,
+        CHAT_DATA_SAVE = 4,
 
-		END
-	}
+        END
+    }
 }

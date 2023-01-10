@@ -97,7 +97,6 @@ namespace FreeNet
 		}
 
 		/// <summary>
-		/// todo:검토중...
 		/// 원격 서버에 접속 성공 했을 때 호출됩니다.
 		/// </summary>
 		/// <param name="socket"></param>

@@ -11,9 +11,11 @@ namespace CSampleServer
 {
 	class Program
 	{
+        public static List<string> chatlog_list = new List<string>();
+        static MySqlConnection conn;
 		static List<CGameUser> userlist;
 
-		static void Main(string[] args)
+        static void Main(string[] args)
 		{
 			CPacketBufferManager.initialize(2000);
 			userlist = new List<CGameUser>();
@@ -38,7 +40,8 @@ namespace CSampleServer
 
             //Access mysql database. And check if the connection is successful.
             string connStr = "server=localhost;user=root;database=ChatLog;port=3306;password=vhzptapahflA123";
-            MySqlConnection conn = new MySqlConnection(connStr);
+            conn = new MySqlConnection(connStr);
+			
             try
             {
                 Console.WriteLine("Connecting to MySQL...");
@@ -109,5 +112,47 @@ namespace CSampleServer
         {
 			return userlist;
         }
-	}
+
+		/// <summary>
+		/// 지금까지 기록된 채팅 로그를 데이터베이스에 저장한다.
+		/// </summary>
+		public static void MySqlSaveData()
+		{
+            //The data in the chatlog_list list are stored in the chatlog_table table in the order in which they are listed. When saving a table, data is stored in the chatLog_Message column.
+            string sql = "INSERT INTO chatlog_table(chatLog_Message) VALUES(@chatLog_Message)";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+            foreach (string chatlog in chatlog_list)
+            {
+                cmd.Parameters.AddWithValue("@chatLog_Message", chatlog);
+                cmd.ExecuteNonQuery();
+            }
+
+            chatlog_list.Clear();
+
+            Console.WriteLine("Data is saved.");
+        }
+
+        /// <summary>
+        /// 데이터베이스에 저장된 채팅 로그를 가져온다.
+        /// </summary>
+        /// <returns>저장된 채팅 로그</returns>
+        public static List<string> MySqlGetData()
+		{
+            //If there is data in the chatlog_table table from the Mysql ChatLog data, only the chatLog_Message column is taken and returned in a string-type list. Returns null if there is no data in the table.
+            List<string> chatLogList = new List<string>();
+            string sql = "SELECT chatLog_Message FROM chatlog_table";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            while (rdr.Read())
+            {
+                chatLogList.Add(rdr[0].ToString());
+            }
+
+            rdr.Close();
+
+            return chatLogList;
+        }
+    }
 }

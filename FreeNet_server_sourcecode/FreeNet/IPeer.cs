@@ -54,5 +54,15 @@ namespace FreeNet
 
 
 		void process_user_operation(CPacket msg);
-	}
+
+		/// <summary>
+		/// 지금까지 기록된 메시지를 모두 데이터베이스에 저장한다.
+		/// </summary>
+        void call_save_messages();
+
+		/// <summary>
+		/// 데이터베이스에 저장된 메시지를 모두 가져온다.
+		/// </summary>
+        void call_get_messages();
+    }
 }
