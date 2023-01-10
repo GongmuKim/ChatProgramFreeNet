@@ -43,7 +43,14 @@ namespace CSampleServer
             {
                 Console.WriteLine("Connecting to MySQL...");
                 conn.Open();
-                // Perform database operations
+                //Check for connection
+                string sql = "SELECT * FROM ChatLog";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+                MySqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+                }
             }
             catch (Exception ex)
             {
