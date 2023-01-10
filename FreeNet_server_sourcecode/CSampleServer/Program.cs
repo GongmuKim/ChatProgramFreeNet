@@ -43,13 +43,15 @@ namespace CSampleServer
             {
                 Console.WriteLine("Connecting to MySQL...");
                 conn.Open();
+				
                 //Check for connection
-                string sql = "SELECT * FROM chatlog_table";
-                MySqlCommand cmd = new MySqlCommand(sql, conn);
-                MySqlDataReader rdr = cmd.ExecuteReader();
-                while (rdr.Read())
+                if (conn.State == System.Data.ConnectionState.Open)
                 {
-                    Console.WriteLine(rdr[0] + " -- " + rdr[1]);
+                    Console.WriteLine("Connection is successful.");
+                }
+                else
+                {
+                    Console.WriteLine("Connection is failed.");
                 }
             }
             catch (Exception ex)
