@@ -118,7 +118,7 @@ namespace CSampleServer
 		public static void MySqlSaveData(string message)
 		{
             //The data in the chatlog_list list are stored in the chatlog_table table in the order in which they are listed. When saving a table, data is stored in the chatLog_Message column.
-            string sql = "INSERT INTO chatlog_table(chatLog_Message) VALUES(@chatLog_Message, @chatLog_Date)";
+            string sql = "INSERT INTO chatlog_table(chatLog_Message,chatLog_Date) VALUES(@chatLog_Message,@chatLog_Date)";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
 
             //Take the current date and time and save it in the form of string.
