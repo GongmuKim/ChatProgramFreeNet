@@ -14,6 +14,7 @@ namespace GameServer
 		CHAT_MSG_ACK = 2,
         CHAT_DATA_REQ = 3,
         CHAT_DATA_SAVE = 4,
+		CHAT_MEMBER_CHECK = 5,
 
         END
     }

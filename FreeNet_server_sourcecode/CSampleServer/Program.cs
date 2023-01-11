@@ -118,10 +118,14 @@ namespace CSampleServer
 		public static void MySqlSaveData(string message)
 		{
             //The data in the chatlog_list list are stored in the chatlog_table table in the order in which they are listed. When saving a table, data is stored in the chatLog_Message column.
-            string sql = "INSERT INTO chatlog_table(chatLog_Message) VALUES(@chatLog_Message)";
+            string sql = "INSERT INTO chatlog_table(chatLog_Message) VALUES(@chatLog_Message, @chatLog_Date)";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
 
+            //Take the current date and time and save it in the form of string.
+            string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
             cmd.Parameters.AddWithValue("@chatLog_Message", message);
+            cmd.Parameters.AddWithValue("@chatLog_Date", date);
             cmd.ExecuteNonQuery();
 
             Console.WriteLine("Data is saved.");
@@ -131,22 +135,79 @@ namespace CSampleServer
         /// 데이터베이스에 저장된 채팅 로그를 가져온다.
         /// </summary>
         /// <returns>저장된 채팅 로그</returns>
-        public static List<string> MySqlGetData()
+        public static List<Dictionary<string, string>> MySqlGetChatLog()
 		{
-            //If there is data in the chatlog_table table from the Mysql ChatLog data, only the chatLog_Message column is taken and returned in a string-type list. Returns null if there is no data in the table.
-            List<string> chatLogList = new List<string>();
-            string sql = "SELECT chatLog_Message FROM chatlog_table";
+            ////If there is data in the chatlog_table table from the Mysql ChatLog data, only the chatLog_Message column is taken and returned in a string-type list. Returns null if there is no data in the table.
+            //List<string> chatLogList = new List<string>();
+            //string sql = "SELECT chatLog_Message FROM chatlog_table";
+            //MySqlCommand cmd = new MySqlCommand(sql, conn);
+            //MySqlDataReader rdr = cmd.ExecuteReader();
+
+            //while (rdr.Read())
+            //{
+            //    chatLogList.Add(rdr[0].ToString());
+            //}
+
+            //rdr.Close();
+
+            //return chatLogList;
+
+            Dictionary<string, string> chatLog_dic = new Dictionary<string, string>();
+            
+            //In the Mysql ChatLog data, if there is data in the chatlog_table table, the chatLog_Message column in the chatLog_dic dictionary is the value of the cl_message key, and the chatLog_Date column is added as the value of the cl_date key and returned to the list.
+            List<Dictionary<string, string>> chatLogList = new List<Dictionary<string, string>>();
+            string sql = "SELECT chatLog_Message, chatLog_Date FROM chatlog_table";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             MySqlDataReader rdr = cmd.ExecuteReader();
 
             while (rdr.Read())
             {
-                chatLogList.Add(rdr[0].ToString());
+                chatLog_dic.Add("cl_message", rdr[0].ToString());
+                chatLog_dic.Add("cl_date", rdr[1].ToString());
+                chatLogList.Add(chatLog_dic);
             }
 
             rdr.Close();
 
             return chatLogList;
+        }
+
+        public static bool IsSameMemberInDB(string member)
+		{
+            //Check the chatlog_member table data for data that matches the member column.
+            string sql = "SELECT * FROM chatlog_member WHERE member = @member";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@member", member);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            //If there is a matching member, return true.
+            if (rdr.Read())
+            {
+                rdr.Close();
+                return true;
+            }
+
+            rdr.Close();
+            return false;
+        }
+
+        public static string GetFirstDateMember(string member)
+        {
+            //If the data in the chatlog_member table data matches the member column, it returns the data in the fastdate column in the form of a string, or in the form of an empty string.
+            string sql = "SELECT fastdate FROM chatlog_member WHERE member = @member";
+            MySqlCommand cmd = new MySqlCommand(sql, conn);
+            cmd.Parameters.AddWithValue("@member", member);
+            MySqlDataReader rdr = cmd.ExecuteReader();
+
+            if (rdr.Read())
+            {
+                string fastdate = rdr[0].ToString();
+                rdr.Close();
+                return fastdate;
+            }
+
+            rdr.Close();
+            return "";
         }
     }
 }

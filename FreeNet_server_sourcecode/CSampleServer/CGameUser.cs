@@ -8,6 +8,7 @@ using FreeNet;
 namespace CSampleServer
 {
 	using GameServer;
+	using static CSampleServer.Program;
 	using static System.Net.Mime.MediaTypeNames;
 
 	/// <summary>
@@ -47,16 +48,16 @@ namespace CSampleServer
                     break;
                 case PROTOCOL.CHAT_DATA_REQ:
                     {
-                        List<string> getSqlChatdata = new List<string>();
-                        getSqlChatdata = Program.MySqlGetData();
+                        List<Dictionary<string, string>> getSqlChatdata = new List<Dictionary<string, string>>();
+                        getSqlChatdata = Program.MySqlGetChatLog();
 
                         if (getSqlChatdata != null)
                         {
-                            foreach (string chatdata in getSqlChatdata)
+                            foreach (Dictionary<string, string> chatdata in getSqlChatdata)
                             {
-                                if (chatdata != "")
+                                if (chatdata["cl_message"] != "")
                                 {
-                                    CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
+                                    CPacket response = CPacket.create((short)PROTOCOL.CHAT_DATA_REQ);
                                     response.push(chatdata);
                                     send(response);
                                 }

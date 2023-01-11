@@ -1,14 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace FreeNet
 {
-	/// <summary>
-	/// byte[] 버퍼를 참조로 보관하여 pop_xxx 매소드 호출 순서대로 데이터 변환을 수행한다.
-	/// </summary>
-	public class CPacket
+    /// <summary>
+    /// byte[] 버퍼를 참조로 보관하여 pop_xxx 매소드 호출 순서대로 데이터 변환을 수행한다.
+    /// </summary>
+    public class CPacket
 	{
 		public IPeer owner { get; private set; }
 		public byte[] buffer { get; private set; }
@@ -157,5 +158,23 @@ namespace FreeNet
 			temp_buffer.CopyTo(this.buffer, this.position);
 			this.position += temp_buffer.Length;
 		}
-	}
+
+		public void push(Dictionary<string, string> data)
+		{
+            //Data, a dictionary parameter, is converted for socket communication.
+            //Data is converted to JSON string and then converted to byte array.
+            //The length of the byte array is converted to 2 bytes and pushed first.
+            //And then push the byte array.
+            string json = JsonConvert.SerializeObject(data);
+            byte[] temp_buffer = Encoding.UTF8.GetBytes(json);
+
+            Int16 len = (Int16)temp_buffer.Length;
+            byte[] len_buffer = BitConverter.GetBytes(len);
+            len_buffer.CopyTo(this.buffer, this.position);
+            this.position += sizeof(Int16);
+
+            temp_buffer.CopyTo(this.buffer, this.position);
+            this.position += temp_buffer.Length;
+        }
+    }
 }
