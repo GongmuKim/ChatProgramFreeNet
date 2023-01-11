@@ -152,8 +152,6 @@ namespace CSampleServer
 
             //return chatLogList;
 
-            Dictionary<string, string> chatLog_dic = new Dictionary<string, string>();
-            
             //In the Mysql ChatLog data, if there is data in the chatlog_table table, the chatLog_Message column in the chatLog_dic dictionary is the value of the cl_message key, and the chatLog_Date column is added as the value of the cl_date key and returned to the list.
             List<Dictionary<string, string>> chatLogList = new List<Dictionary<string, string>>();
             string sql = "SELECT chatLog_Message, chatLog_Date FROM chatlog_table";
@@ -162,8 +160,11 @@ namespace CSampleServer
 
             while (rdr.Read())
             {
-                chatLog_dic.Add("cl_message", rdr[0].ToString());
-                chatLog_dic.Add("cl_date", rdr[1].ToString());
+                Dictionary<string, string> chatLog_dic = new Dictionary<string, string>
+                {
+                    { "cl_message", rdr[0].ToString() },
+                    { "cl_date", rdr[1].ToString() }
+                };
                 chatLogList.Add(chatLog_dic);
             }
 
