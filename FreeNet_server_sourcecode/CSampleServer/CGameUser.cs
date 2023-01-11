@@ -34,19 +34,43 @@ namespace CSampleServer
 			Console.WriteLine("protocol id " + protocol);
 			switch (protocol)
 			{
-					case PROTOCOL.CHAT_MSG_REQ:
-					{
-						string text = msg.pop_string();
-						Console.WriteLine(string.Format("text {0}", text));
-						//Program.chatlog_list.Add(text);
+                case PROTOCOL.CHAT_MSG_REQ:
+                    {
+                        string text = msg.pop_string();
+                        Console.WriteLine(string.Format("text {0}", text));
+                        //Program.chatlog_list.Add(text);
                         CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
-						response.push(text);
-						//send(response);
-						sendAll(response, text);
-					}
-					break;
-			}
-		}
+                        response.push(text);
+                        //send(response);
+                        sendAll(response, text);
+                    }
+                    break;
+                case PROTOCOL.CHAT_DATA_REQ:
+                    {
+                        List<string> getSqlChatdata = new List<string>();
+                        getSqlChatdata = Program.MySqlGetData();
+
+                        if (getSqlChatdata != null)
+                        {
+                            foreach (string chatdata in getSqlChatdata)
+                            {
+                                if (chatdata != "")
+                                {
+                                    CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
+                                    response.push(chatdata);
+                                    send(response);
+                                }
+                            }
+                        }
+                    }
+                    break;
+                case PROTOCOL.CHAT_DATA_SAVE:
+                    {
+                        Program.MySqlSaveData();
+                    }
+                    break;
+            }
+        }
 
 		void IPeer.on_removed()
 		{
@@ -58,6 +82,7 @@ namespace CSampleServer
 		{
 			this.token.send(msg);
 		}
+		
 		public void sendAll(CPacket msg, string text)
         {
 			Program.chatlog_list.Add(text);
@@ -76,30 +101,6 @@ namespace CSampleServer
 
 		void IPeer.process_user_operation(CPacket msg)
 		{
-		}
-
-		void IPeer.call_get_messages()
-		{
-            List<string> getSqlChatdata = new List<string>();
-            getSqlChatdata = Program.MySqlGetData();
-
-			if (getSqlChatdata != null)
-			{
-				foreach (string chatdata in getSqlChatdata)
-				{
-					if (chatdata != "")
-					{
-						CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
-						response.push(chatdata);
-						send(response);
-					}
-				}
-			}
-        }
-
-		void IPeer.call_save_messages()
-		{
-			Program.MySqlSaveData();
 		}
 	}
 }
