@@ -11,7 +11,6 @@ namespace CSampleServer
 {
 	class Program
 	{
-        public static List<string> chatlog_list = new List<string>();
         static MySqlConnection conn;
 		static List<CGameUser> userlist;
 
@@ -116,19 +115,14 @@ namespace CSampleServer
 		/// <summary>
 		/// 지금까지 기록된 채팅 로그를 데이터베이스에 저장한다.
 		/// </summary>
-		public static void MySqlSaveData()
+		public static void MySqlSaveData(string message)
 		{
             //The data in the chatlog_list list are stored in the chatlog_table table in the order in which they are listed. When saving a table, data is stored in the chatLog_Message column.
             string sql = "INSERT INTO chatlog_table(chatLog_Message) VALUES(@chatLog_Message)";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
 
-            foreach (string chatlog in chatlog_list)
-            {
-                cmd.Parameters.AddWithValue("@chatLog_Message", chatlog);
-                cmd.ExecuteNonQuery();
-            }
-
-            chatlog_list.Clear();
+            cmd.Parameters.AddWithValue("@chatLog_Message", message);
+            cmd.ExecuteNonQuery();
 
             Console.WriteLine("Data is saved.");
         }

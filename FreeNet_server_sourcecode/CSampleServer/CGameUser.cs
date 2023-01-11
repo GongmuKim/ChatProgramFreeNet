@@ -66,7 +66,8 @@ namespace CSampleServer
                     break;
                 case PROTOCOL.CHAT_DATA_SAVE:
                     {
-                        Program.MySqlSaveData();
+                        string text = msg.pop_string();
+                        Program.MySqlSaveData(text);
                     }
                     break;
             }
@@ -85,7 +86,6 @@ namespace CSampleServer
 		
 		public void sendAll(CPacket msg, string text)
         {
-			Program.chatlog_list.Add(text);
             List<CGameUser> users = callback_get_tokenlist();
 
 			foreach (CGameUser user in users)
