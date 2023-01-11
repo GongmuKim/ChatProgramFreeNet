@@ -87,9 +87,12 @@ namespace CSampleServer
 			{
 				foreach (string chatdata in getSqlChatdata)
 				{
-					CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
-					response.push(chatdata);
-					send(response);
+					if (chatdata != "")
+					{
+						CPacket response = CPacket.create((short)PROTOCOL.CHAT_MSG_ACK);
+						response.push(chatdata);
+						send(response);
+					}
 				}
 			}
         }

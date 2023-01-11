@@ -53,7 +53,6 @@ namespace FreeNet
 		/// <param name="transfered"></param>
 		public void on_receive(byte[] buffer, int offset, int transfered)
 		{
-			Console.WriteLine(string.Format("offset : {0}", offset));
 			this.message_resolver.on_receive(buffer, offset, transfered, on_message);
 		}
 
