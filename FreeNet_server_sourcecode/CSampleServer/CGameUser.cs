@@ -8,6 +8,7 @@ using FreeNet;
 namespace CSampleServer
 {
 	using GameServer;
+	using System.Runtime.InteropServices.ComTypes;
 	using static CSampleServer.Program;
 	using static System.Net.Mime.MediaTypeNames;
 
@@ -49,13 +50,16 @@ namespace CSampleServer
                 case PROTOCOL.CHAT_DATA_REQ:
                     {
                         List<Dictionary<string, string>> getSqlChatdata = new List<Dictionary<string, string>>();
-                        getSqlChatdata = Program.MySqlGetChatLog();
+                        getSqlChatdata = MySqlGetChatLog();
+                        DateTime member_fistdate = Convert.ToDateTime(GetFirstDateMember(msg.pop_string()));
 
                         if (getSqlChatdata != null)
                         {
                             foreach (Dictionary<string, string> chatdata in getSqlChatdata)
                             {
-                                if (chatdata["cl_message"] != "")
+                                DateTime message_date = Convert.ToDateTime(chatdata["cl_date"]);
+
+                                if (chatdata["cl_message"] != "" && DateTime.Compare(message_date, member_fistdate) >= 0)
                                 {
                                     CPacket response = CPacket.create((short)PROTOCOL.CHAT_DATA_REQ);
                                     response.push(chatdata);
@@ -68,7 +72,20 @@ namespace CSampleServer
                 case PROTOCOL.CHAT_DATA_SAVE:
                     {
                         string text = msg.pop_string();
-                        Program.MySqlSaveData(text);
+                        MySqlSaveData(text);
+                    }
+					break;
+				case PROTOCOL.CHAT_MEMBER_CHECK:
+					{
+                        string text = msg.pop_string();
+						
+						if(!IsSameMemberInDB(text))
+						{
+							SettingMemberData(text);
+                        }
+
+                        CPacket response = CPacket.create((short)PROTOCOL.CHAT_MEMBER_CHECK);
+                        send(response);
                     }
                     break;
             }
@@ -77,7 +94,7 @@ namespace CSampleServer
 		void IPeer.on_removed()
 		{
 			Console.WriteLine("The client disconnected.");
-			Program.remove_user(this);
+			remove_user(this);
 		}
 
 		public void send(CPacket msg)

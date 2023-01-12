@@ -210,5 +210,21 @@ namespace CSampleServer
             rdr.Close();
             return "";
         }
+
+        public static void SettingMemberData(string new_member)
+        {
+            //If the new_member parameter is not in the ChatLog data chatlog_member table member column, add the current date time to the new_member parameter firstdate column in the member column.
+            if (!IsSameMemberInDB(new_member))
+            {
+                string sql = "INSERT INTO chatlog_member(member,fastdate) VALUES(@member,@fastdate)";
+                MySqlCommand cmd = new MySqlCommand(sql, conn);
+
+                string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+
+                cmd.Parameters.AddWithValue("@member", new_member);
+                cmd.Parameters.AddWithValue("@fastdate", date);
+                cmd.ExecuteNonQuery();
+            }
+        }
     }
 }
