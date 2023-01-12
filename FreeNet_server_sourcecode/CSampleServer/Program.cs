@@ -180,7 +180,7 @@ namespace CSampleServer
         public static string GetFirstDateMember(string member)
         {
             //If the data in the chatlog_member table data matches the member column, it returns the data in the fastdate column in the form of a string, or in the form of an empty string.
-            string sql = "SELECT fastdate FROM chatlog_member WHERE member = @member";
+            string sql = "SELECT firstdate FROM chatlog_member WHERE member = @member";
             MySqlCommand cmd = new MySqlCommand(sql, conn);
             cmd.Parameters.AddWithValue("@member", member);
             MySqlDataReader rdr = cmd.ExecuteReader();
