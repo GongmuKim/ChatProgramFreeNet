@@ -137,21 +137,6 @@ namespace CSampleServer
         /// <returns>저장된 채팅 로그</returns>
         public static List<Dictionary<string, string>> MySqlGetChatLog()
 		{
-            ////If there is data in the chatlog_table table from the Mysql ChatLog data, only the chatLog_Message column is taken and returned in a string-type list. Returns null if there is no data in the table.
-            //List<string> chatLogList = new List<string>();
-            //string sql = "SELECT chatLog_Message FROM chatlog_table";
-            //MySqlCommand cmd = new MySqlCommand(sql, conn);
-            //MySqlDataReader rdr = cmd.ExecuteReader();
-
-            //while (rdr.Read())
-            //{
-            //    chatLogList.Add(rdr[0].ToString());
-            //}
-
-            //rdr.Close();
-
-            //return chatLogList;
-
             //In the Mysql ChatLog data, if there is data in the chatlog_table table, the chatLog_Message column in the chatLog_dic dictionary is the value of the cl_message key, and the chatLog_Date column is added as the value of the cl_date key and returned to the list.
             List<Dictionary<string, string>> chatLogList = new List<Dictionary<string, string>>();
             string sql = "SELECT chatLog_Message, chatLog_Date FROM chatlog_table";
@@ -216,13 +201,13 @@ namespace CSampleServer
             //If the new_member parameter is not in the ChatLog data chatlog_member table member column, add the current date time to the new_member parameter firstdate column in the member column.
             if (!IsSameMemberInDB(new_member))
             {
-                string sql = "INSERT INTO chatlog_member(member,fastdate) VALUES(@member,@fastdate)";
+                string sql = "INSERT INTO chatlog_member(member,firstdate) VALUES(@member,@firstdate)";
                 MySqlCommand cmd = new MySqlCommand(sql, conn);
 
                 string date = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
 
                 cmd.Parameters.AddWithValue("@member", new_member);
-                cmd.Parameters.AddWithValue("@fastdate", date);
+                cmd.Parameters.AddWithValue("@firstdate", date);
                 cmd.ExecuteNonQuery();
             }
         }
